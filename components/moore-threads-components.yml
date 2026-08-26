@@ -1,0 +1,53 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/digital-human/digital-human-doc-online/sdk
+name: Moore Threads Embeddable Components
+description: >-
+  One embeddable client-side component family: the 摩影元像 (Moying Yuanxiang) digital human, mounted
+  into a DOM element by the `mtai` browser SDK. It is a real UI surface rather than an API client
+  — the caller hands it a div and it renders and animates an interactive avatar, handling media
+  capture, playback and the duplex session itself. It is distinct from the SDK listing in
+  packages/ because what it delivers is a rendered interface, not a request wrapper.
+families:
+- name: Digital Human (摩影元像)
+  loader: mtai
+  distribution: npm
+  install: npm install mtai
+  package_url: https://www.npmjs.com/package/mtai
+  version: 0.2.21
+  frameworks_documented: [react, vue, vanilla]
+  examples:
+  - https://github.com/MooreThreads/mtai-sdk-ts/tree/master/examples/react-app
+  - https://github.com/MooreThreads/mtai-sdk-ts/tree/master/examples/vue-project
+  components:
+  - name: DH2D session
+    factory: createDH2DSession(container, { audioInput, videoId })
+    renders: A 2D digital human inside a caller-supplied div element.
+    states: [sleeping, listening, talking, sleep_talking]
+    commands: [wakeup, sleep, input (text), input (bot_text), asr_session start, asr_session stop]
+    events: [status_change, message (audio_text subtitles)]
+    configuration:
+    - asr_model — remote (cloud) or local
+    - tts_model — remote (cloud) or local
+    - mode — duplex or half-duplex
+    - message_prefix — system prompt injection
+    - llm_service — any OpenAI-compatible provider endpoint + token, or a local FAQ JSON file
+    - llm_config — model, temperature, max_tokens
+  - name: Catalogue helpers
+    functions: [getAvailableVoices, getAvailableAvatars, getLlmModels, getAvatars]
+    renders: null
+    note: Discovery calls against the digital-human server, returning the voices, avatars and LLM configurations that server has loaded.
+  - name: Component manager
+    functions: [observeComponents, updateComponent, cancelUpdateComponent]
+    note: Monitors and updates installable assets on the digital-human server — custom avatars and local ASR models.
+  backend: >-
+    Customer-hosted. setConfig({ endpoint }) points the component at a digital-human server the
+    customer runs; the default is http://localhost:32101, and the docs give
+    http://your_server_ip:32101 as the on-premise example. Moore Threads hosts no public endpoint
+    for this component, so it is not callable without first deploying the server product.
+  auth: The component calls /api/v1/logged_in and /api/v1/set_auth on its configured endpoint; the access_token is the customer server's, not a Moore Threads credential.
+not_found:
+- hosted checkout or embedded dashboard components
+- web components / custom elements published to a CDN
+- design system or React component library
+checked: '2026-08-26'

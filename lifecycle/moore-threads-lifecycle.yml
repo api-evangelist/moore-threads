@@ -1,0 +1,58 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/
+name: Moore Threads API Lifecycle
+description: >-
+  Moore Threads runs a disciplined release process for its SOFTWARE STACK — versioned release
+  notes, archived history_version trees, and per-release platform validation matrices for the MUSA
+  SDK, the Linux drivers, the cloud-native suite and the codec libraries. It runs no comparable
+  process for its APIs. The AIBook speech APIs and the KUAE Cloud Coding Plan carry a path version
+  and nothing else: no deprecation policy, no Sunset/Deprecation headers, no SLA for the API
+  surface, and no status page anywhere on the mthreads.com or kuaecloud.net estate.
+versioning:
+  scheme: uri-path
+  api_versions:
+  - {api: AIBook Text-to-Speech, versions: [v1 (HTTP unary), v2 (WebSocket streaming)]}
+  - {api: AIBook Speech Recognition, versions: [v1]}
+  - {api: AIBook Streaming Voice Conversion, versions: [v1]}
+  - {api: KUAE Cloud Coding Plan, versions: ['root (Anthropic protocol)', '/v1 (OpenAI protocol)'], note: The /v1 is the OpenAI specification's own path, not a Moore Threads version namespace.}
+  policy_published: false
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation or sunset policy is published for any API. The only deprecation signal anywhere
+    on the estate is the MUSA SDK history_version archive, which preserves superseded SDK release
+    notes without stating a support window for them.
+status_page:
+  published: false
+  probed:
+  - {url: 'https://status.mthreads.com/', status: 000, verdict: does not resolve}
+  note: >-
+    No status page, no uptime history and no incident feed was found on mthreads.com,
+    docs.mthreads.com or kuaecloud.net. A Moore Threads AIBook customer has no way to distinguish
+    a service incident from their own integration fault except by reading in-band status codes
+    3001/3002.
+sla:
+  published: partial
+  documents:
+  - name: KUAE Cloud bare-metal SLA
+    url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/terms/baremetal_sla
+    status: 200
+    covers: KUAE Cloud bare-metal GPU instances
+    note: >-
+      This is an infrastructure SLA for rented GPU servers. It does not cover the Coding Plan
+      inference endpoint or any AIBook speech API.
+  - name: KUAE Cloud preview agreement
+    url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/terms/preview_agreement
+    covers: Preview/beta services on KUAE Cloud
+release_notes:
+  published: true
+  scope: software stack, not APIs
+  url: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/
+  see: changelog/moore-threads-changelog.yml
+deprecated_operations: []
+deprecated_operations_note: No OpenAPI is published, so no operation-level deprecation flags exist to derive from.
+checked: '2026-08-26'

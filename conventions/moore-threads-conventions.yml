@@ -1,0 +1,110 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/asr/recording-recognition/introduction
+name: Moore Threads API Conventions
+description: >-
+  Cross-cutting runtime semantics for the Moore Threads public API surface, read from the AIBook
+  speech API references and the KUAE Cloud Coding Plan docs. The AIBook surfaces share one house
+  style — a JSON envelope with task_id / status / status_text, binary audio on the wire, and an
+  explicit Start/Send/Stop state machine — while KUAE Cloud inherits the Anthropic and OpenAI
+  conventions wholesale because it implements those two protocols.
+auth_style:
+  summary: Opaque token. Header on HTTP surfaces, query parameter on WebSocket surfaces, request-body field on streaming TTS.
+  see: authentication/moore-threads-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No idempotency key, no request-deduplication guarantee and no safe-retry contract is documented
+    on any surface. The recording-file ASR flow is the one place where an accidental replay is
+    visible to the caller: sending UploadDone twice returns 4015 and sending requests out of
+    sequence returns 4016, which are guards against duplicate submission rather than idempotency.
+pagination:
+  supported: false
+  note: No collection endpoint on any published surface, so nothing paginates.
+field_expansion:
+  supported: false
+  note: >-
+    The closest analogue is opt-in response enrichment on ASR — show_words, show_confidence,
+    enable_speaker_info, enable_timestamp_alignment, show_intermediate_result — and on TTS —
+    enable_subtitle, enable_phoneme_timestamp. Docs warn that the TTS timestamp flags raise
+    first-packet latency on large-model voices.
+metadata:
+  supported: false
+request_id_tracing:
+  supported: partial
+  field: task_id
+  note: >-
+    Every AIBook job/session gets a server-generated task_id echoed on every subsequent frame; it
+    is the only correlation handle. There is no X-Request-Id header. The KUAE Cloud authentication
+    error carries a "Request id:0217xxxxxxx" inside the message string, so a request id exists on
+    that surface but is not exposed as a field or header.
+versioning:
+  style: uri-path
+  values:
+  - /api/v1/tts/generate
+  - /api/v2/tts/stream_generate
+  - /api/v1/asr
+  - /api/v1/streaming_vc
+  note: >-
+    Path versioning, and the TTS pair demonstrates it is real — v1 is the unary HTTP surface and
+    v2 is the streaming WebSocket surface. No version header, no dated version pin, no published
+    policy for how long a version lives. KUAE Cloud has no Moore Threads version namespace of its
+    own; /v1 there is the OpenAI protocol's own path.
+error_envelope:
+  style: vendor-numeric-in-body
+  see: errors/moore-threads-error-codes.yml
+rate_limit_signaling:
+  headers: []
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented on any surface. Exhaustion is
+    signalled in-band by status 2003 (too many requests) and 2004 (service overload). The KUAE
+    Cloud Coding Plan quota is a 5-hour rolling prompt budget with no runtime signal at all — the
+    docs tell the human to wait for the next 5-hour window.
+  see: rate-limits/moore-threads-rate-limits.yml
+streaming:
+  protocols:
+  - websocket
+  - http-chunked
+  - grpc
+  note: >-
+    WebSocket is the primary streaming transport (TTS v2, realtime ASR, voice conversion). The
+    on-premise LiteTTS package instead exposes gRPC StreamingSynthesizeSpeech on port 51061. KUAE
+    Cloud streams via the Anthropic/OpenAI SSE conventions.
+  state_machines:
+  - api: Speech Recognition (realtime)
+    sequence: StartTranscription -> binary audio frames -> StopTranscription -> TranscriptionCompleted
+    constraint: Audio frames must arrive at least every 10 seconds or the server closes the session (4009).
+  - api: Streaming Voice Conversion
+    sequence: StartConversion -> binary audio frames -> StopConversion -> ConversionCompleted
+    constraint: Send exactly 1000 ms of audio every 1000 ms; faster than realtime triggers 2004.
+  - api: Recording-file Speech Recognition
+    sequence: submit -> (upload chunks -> upload done) -> query | callback
+    constraint: Chunks should not exceed 10 MB; each chunk must be acknowledged before the next is sent.
+reversibility:
+  grade: na
+  applicable: false
+  rationale: >-
+    Nothing on the published Moore Threads API surface creates durable, externally-visible state
+    that a caller could need to take back. TTS and voice conversion are pure transformations; ASR
+    creates a transcription job whose only artifact is a result the server itself discards after
+    72 hours; the KUAE Cloud Coding Plan is a chat-completions endpoint. There is no create/update/
+    delete of a customer record, no payment, no provisioning call.
+  write_surfaces:
+  - operation: ASR submit (recording-file recognition)
+    creates: A transcription task identified by task_id
+    reversal_operation: null
+    window: null
+    note: >-
+      No cancel, abort or delete operation is documented for a submitted task. The docs describe
+      only forward motion — submit, upload, upload done, query. A task cannot be recalled once
+      UploadDone is sent; the caller's only remedy is to stop polling and let the 72-hour retention
+      expire the result. This is an honest gap, not an inferred window.
+  dry_run_mode: na
+  idempotency: na
+  checked: '2026-08-26'
+cross_links:
+  errors: errors/moore-threads-error-codes.yml
+  lifecycle: lifecycle/moore-threads-lifecycle.yml
+  authentication: authentication/moore-threads-authentication.yml
+  rate_limits: rate-limits/moore-threads-rate-limits.yml

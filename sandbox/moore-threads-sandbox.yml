@@ -1,0 +1,57 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/tts/unary-tts/introduction
+name: Moore Threads Sandbox and Trial Surface
+description: >-
+  Moore Threads publishes no sandbox in the conventional sense — there are no test-mode keys, no
+  key prefixes distinguishing test from live, no fixture data, no test clocks and no simulator
+  values on any surface. What it does publish is a hosted voice demo linked from its own API
+  reference, and a genuinely free 30-day tier on the KUAE Cloud Coding Plan that runs against
+  production. Nothing here is a value we invented; every item below is published by Moore Threads.
+test_mode:
+  supported: false
+  key_prefixes: []
+  note: >-
+    One token type per surface, used against production. The streaming TTS API documents a literal
+    placeholder access_token value of "default_token" because the field is not yet enforced — that
+    is an unenforced credential, not a test mode, and it is recorded as a weakness rather than as
+    a sandbox facility.
+consoles:
+- name: Moore Threads Voice Demo
+  url: https://voice.mthreads.com/
+  status: 200
+  type: hosted-playground
+  auth_required: unknown
+  covers: TTS voice preview — the API reference links it as the way to audition the 27 published voices before integrating.
+  note: A JavaScript application; the shell is all that is retrievable without a browser.
+  source: https://docs.mthreads.com/tts/unary-tts/introduction
+- name: KUAE Cloud Coding Plan console
+  url: https://coding-plan.kuaecloud.net/apikey
+  type: console
+  auth_required: true
+  covers: API key creation, free-trial claim (/free_apply) and code redemption (/redeem).
+free_tier:
+- api: KUAE Cloud Coding Plan API
+  name: Free Trial
+  duration: 30 days from claim
+  quota: ~40 prompts per rolling 5-hour window
+  environment: production
+  signup: https://coding-plan.kuaecloud.net/free_apply
+  note: One claim per account; not repeatable. This is a free production allowance, not a sandbox.
+self_hosted_alternatives:
+- name: LiteTTS on-device delivery
+  url: https://docs.mthreads.com/tts/lite-tts/introduction
+  note: >-
+    A downloadable tarball containing a complete LiteTTS server, seven bundled lite voices and a
+    standalone gRPC streaming client — the closest thing to an offline test harness Moore Threads
+    publishes, and it needs no Moore Threads credential at all.
+- name: Digital human Web SDK
+  url: https://docs.mthreads.com/digital-human/digital-human-doc-online/sdk
+  note: The mtai SDK defaults to http://localhost:32101, so local development runs entirely against a self-hosted server.
+not_published:
+- test card numbers or magic identifiers
+- test-vs-live key prefixes
+- time simulation / test clocks
+- event or webhook trigger tooling
+- seeded fixture accounts
+checked: '2026-08-26'

@@ -1,0 +1,124 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+name: Moore Threads Published Limits
+description: >-
+  Moore Threads publishes real, numeric limits — but almost none of them are rate limits in the
+  conventional sense, and NONE of them are signalled in a response header. The KUAE Cloud Coding
+  Plan publishes a per-tier prompt budget on a 5-hour rolling window; the AIBook speech APIs
+  publish payload and pacing ceilings instead of request-per-second quotas, and signal exhaustion
+  only through the in-band numeric status codes 2003 and 2004.
+limit_count: 13
+headers:
+  request: []
+  response: []
+  retry_after: false
+  note: >-
+    No RateLimit-*, X-RateLimit-*, or Retry-After header is documented on any Moore Threads
+    surface. An agent cannot discover its remaining budget at runtime; it can only observe a
+    failure after the fact. This is the single largest runtime-semantics gap on this provider.
+exhaustion:
+  http_status: 200
+  in_band_codes:
+  - code: 2003
+    text: too many requests
+    meaning: Concurrency limit exceeded
+  - code: 2004
+    text: service overload
+    meaning: Client is sending audio faster than realtime
+  - code: 3001
+    text: service is busy
+    meaning: Server-side saturation
+limits:
+- id: coding-plan-free-trial
+  api: KUAE Cloud Coding Plan API
+  scope: per-account
+  window: 5 hours (rolling)
+  limit: ~40 prompts
+  burst: null
+  note: >-
+    Moore Threads benchmarks this as "equivalent to a Claude Pro subscription". Requests may queue
+    during platform peak. Valid 30 days from claim; one claim per account.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+- id: coding-plan-lite
+  api: KUAE Cloud Coding Plan API
+  scope: per-account
+  window: 5 hours (rolling)
+  limit: ~120 prompts
+  note: Stated as 3x Claude Pro. Requests may queue at peak.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+- id: coding-plan-pro
+  api: KUAE Cloud Coding Plan API
+  scope: per-account
+  window: 5 hours (rolling)
+  limit: ~600 prompts
+  note: Stated as 3x Claude Max (5x). Higher generation speed and a response-latency guarantee.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+- id: coding-plan-max
+  api: KUAE Cloud Coding Plan API
+  scope: per-account
+  window: 5 hours (rolling)
+  limit: ~2400 prompts
+  note: Stated as 3x Claude Max (20x). Priority during peak. Docs note one prompt consumes roughly 15-20 model calls, and that the figure is an estimate that varies with project size.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+- id: tts-text-length
+  api: Moore Threads AIBook Text-to-Speech API
+  scope: per-request
+  window: null
+  limit: 300 characters
+  note: UTF-8; English words must be space separated. Applies to both the unary and streaming surfaces.
+  source: https://docs.mthreads.com/tts/unary-tts/introduction
+- id: asr-audio-size
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-request
+  window: null
+  limit: 512 MB audio / 2 GB video
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-audio-duration
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-request
+  window: null
+  limit: 5 hours
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-transcription-time
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-task
+  window: null
+  limit: 4 hours maximum transcription time
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-result-retention
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-task
+  window: 72 hours
+  limit: Completed results retained 72 hours
+  note: After expiry, query returns 3005 "cannot find the taskid".
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-result-fetches
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-task
+  window: lifetime of the task
+  limit: 100 result retrievals
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-upload-chunk
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-request
+  window: null
+  limit: 10 MB recommended per upload chunk
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: asr-realtime-pacing
+  api: Moore Threads AIBook Speech Recognition API
+  scope: per-connection
+  window: 10 seconds
+  limit: A gap of more than 10s between audio frames terminates the session
+  note: Recommended pacing is 160 ms of audio every 160 ms. Sending faster than realtime returns 2004.
+  source: https://docs.mthreads.com/asr/realtime-recognition/introduction
+- id: vc-realtime-pacing
+  api: Moore Threads AIBook Streaming Voice Conversion API
+  scope: per-connection
+  window: 10 seconds
+  limit: Send exactly 1000 ms of audio per 1000 ms; a gap over 10s ends the session
+  source: https://docs.mthreads.com/vc/stream-vc/introduction
+undocumented:
+- Requests per second / per minute on any AIBook surface.
+- Concurrent connection ceiling (2003 exists but the number behind it is not published).
+- Token or context limits on the KUAE Cloud Coding Plan endpoint.

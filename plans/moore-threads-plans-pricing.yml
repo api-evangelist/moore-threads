@@ -1,0 +1,76 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
+name: Moore Threads Plans and Pricing
+description: >-
+  Moore Threads publishes named subscription tiers for exactly one API — the KUAE Cloud Coding Plan
+  — and publishes the ENTITLEMENTS of each tier without publishing the PRICE of any of them. There
+  is no pricing page on mthreads.com, docs.mthreads.com or kuaecloud.net; paid tiers are sold as a
+  physical SKU on a JD.com storefront and redeemed with a code, so the price lives on a
+  third-party marketplace listing rather than on the provider's own surface. The AIBook speech APIs
+  (TTS, ASR, voice conversion) publish no plans, no prices and no self-service signup at all —
+  access is by emailing named staff.
+plan_count: 4
+currency: CNY
+billing_period: subscription (term not published)
+pricing_page: null
+pricing_page_note: >-
+  No provider-hosted pricing page was found. Purchase is documented as: buy the "摩尔线程 AI Coding
+  Plan" listing on the JD.com 摩笔生成旗舰店 storefront (https://item.jd.com/10210423833387.html,
+  HTTP 200), take the redemption code from the JD order detail page, then redeem it at
+  https://coding-plan.kuaecloud.net/redeem.
+plans:
+- name: Free Trial
+  price: 0
+  currency: CNY
+  billing_period: 30 days from claim
+  included_quota: ~40 prompts per rolling 5-hour window
+  overage: none — wait for the next 5-hour window
+  limits:
+  - One claim per account, non-repeatable
+  - Requests may queue during platform peak
+  signup: https://coding-plan.kuaecloud.net/free_apply
+- name: Lite Plan
+  price: null
+  price_note: Not published by Moore Threads; sold via the JD.com storefront listing.
+  currency: CNY
+  included_quota: ~120 prompts per rolling 5-hour window
+  overage: none — wait for the next 5-hour window
+  limits:
+  - Requests may queue during platform peak
+  - Includes model version updates for the subscription term
+- name: Pro Plan
+  price: null
+  price_note: Not published by Moore Threads; sold via the JD.com storefront listing.
+  currency: CNY
+  included_quota: ~600 prompts per rolling 5-hour window
+  overage: none — wait for the next 5-hour window
+  limits:
+  - Higher generation speed than Lite
+  - Response-latency guarantee
+  - Includes model version updates for the subscription term
+- name: Max Plan
+  price: null
+  price_note: Not published by Moore Threads; sold via the JD.com storefront listing.
+  currency: CNY
+  included_quota: ~2400 prompts per rolling 5-hour window
+  overage: none — wait for the next 5-hour window
+  limits:
+  - Priority capacity during peak
+  - Response-latency guarantee
+  - Early access to new features
+unpriced_surfaces:
+- api: Moore Threads AIBook Text-to-Speech API
+  model: contact-sales
+  detail: Access token issued only by emailing named Moore Threads staff; no tier, quota or price is published.
+- api: Moore Threads AIBook Speech Recognition API
+  model: contact-sales
+- api: Moore Threads AIBook Streaming Voice Conversion API
+  model: contact-sales
+notes:
+- >-
+  Account sharing is explicitly prohibited in the plan terms — Moore Threads reserves the right to
+  restrict entitlements or ban an account where one subscription is used by multiple people.
+- >-
+  A prompt is documented as consuming roughly 15-20 model invocations, and the tier figures are
+  stated as estimates that vary with project complexity and codebase size.

@@ -1,0 +1,76 @@
+generated: '2026-08-26'
+method: probed
+source: probe of /.well-known/* on every Moore Threads web and API host
+name: Moore Threads /.well-known Probe
+description: >-
+  No Moore Threads host serves any /.well-known document. Every path 404s on the marketing, English,
+  developer-portal and API hosts. docs.mthreads.com answers HTTP 200 to every /.well-known/* path,
+  but the body is the Docusaurus single-page-app HTML shell in every case — a catch-all route, not
+  a document — so those 200s are recorded as MISSES and no WellKnown or SecurityTxt pointer is
+  emitted for this provider. No security.txt, no OpenID Connect discovery, no OAuth authorization
+  server metadata, no api-catalog, no ai-plugin manifest, and no A2A agent card at either the
+  current or the legacy path.
+hosts:
+- host: www.mthreads.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: en.mthreads.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: developer.mthreads.com
+  documents:
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+- host: docs.mthreads.com
+  note: >-
+    SPA catch-all. Every path below returned HTTP 200 with content-type text/html and a Docusaurus
+    application shell as the body. Treated as absent, per the pipeline rule that a 200 returning an
+    HTML/SPA shell is not a document.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, file: null, verdict: html-shell-not-a-document}
+  - {path: /.well-known/openid-configuration, status: 200, file: null, verdict: html-shell-not-a-document}
+  - {path: /.well-known/oauth-authorization-server, status: 200, file: null, verdict: html-shell-not-a-document}
+  - {path: /.well-known/api-catalog, status: 200, file: null, verdict: html-shell-not-a-document}
+  - {path: /.well-known/ai-plugin.json, status: 200, file: null, verdict: html-shell-not-a-document}
+  - {path: /.well-known/agent-card.json, status: 200, file: null, verdict: html-shell-not-a-document}
+- host: 'aibook-api.mthreads.com:32414'
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: 'aibook-api.mthreads.com:62220'
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+- host: 'aibook-api.mthreads.com:32314'
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+- host: coding-plan-endpoint.kuaecloud.net
+  documents:
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /openapi.json, status: 404, file: null}
+pointer_emitted: false
+pointer_note: >-
+  No type WellKnown and no type SecurityTxt pointer was added to apis.yml, because not one path
+  returned a real document. The file records a measured absence.
+checked: '2026-08-26'

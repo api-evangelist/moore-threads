@@ -1,18 +1,111 @@
 aid: moore-threads
 name: Moore Threads
-description: 'Moore Threads is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Moore Threads (摩尔线程智能科技) is a Chinese GPU company founded in June 2020 that builds
+  full-function GPUs and the MUSA (Meta-computing Unified System Architecture) software stack —
+  a CUDA-alternative programming environment covering the MUSA SDK, muDNN, muBLAS, MCCL,
+  Triton-MUSA and the Musify CUDA-porting toolkit. Alongside the silicon and the SDK it operates
+  a small but real public API surface: the AIBook speech platform (HTTP and WebSocket text-to-speech,
+  streaming and recording-file speech recognition, and streaming voice conversion on
+  aibook-api.mthreads.com), the KUAE Cloud (夸娥云) Coding Plan — an OpenAI- and Anthropic-compatible
+  LLM inference endpoint at coding-plan-endpoint.kuaecloud.net serving GLM-4.7 on MTT S5000 GPUs —
+  and the "摩影元像" digital-human Web SDK distributed on npm as `mtai`. None of these surfaces
+  publishes a machine-readable contract; every operation is documented as prose, parameter tables
+  and curl/Python samples on docs.mthreads.com, and access tokens are issued by contacting sales.
 url: https://raw.githubusercontent.com/api-evangelist/moore-threads/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
+image: https://www.mthreads.com/favicon/logo.png
 tags:
 - Company
-apis: []
+- GPU
+- Artificial Intelligence
+- Machine Learning
+- Semiconductors
+- Speech Recognition
+- Text To Speech
+- Voice
+- LLM Inference
+- Cloud Computing
+- Developer Tools
+- China
+apis:
+- name: Moore Threads AIBook Text-to-Speech API
+  description: >-
+    HTTP and WebSocket speech synthesis. A non-streaming POST /api/v1/tts/generate returns a
+    complete wav/mp3 for up to 300 characters; a WebSocket /api/v2/tts/stream_generate streams
+    base64 PCM chunks with word- and phoneme-level timestamps, and additionally accepts streaming
+    TEXT input so an LLM's token stream can be voiced as it is produced. 27 named voices are
+    published, split between large-model and lite voices. Authenticated with an Authorization
+    header; tokens are issued by contacting Moore Threads.
+  humanURL: https://docs.mthreads.com/tts/unary-tts/introduction
+  baseURL: https://aibook-api.mthreads.com:32414
+  tags:
+  - Text To Speech
+  - Voice
+  - Streaming
+  properties:
+  - type: Documentation
+    url: https://docs.mthreads.com/tts/unary-tts/introduction
+  - type: APIReference
+    url: https://docs.mthreads.com/tts/stream-tts/introduction
+- name: Moore Threads AIBook Speech Recognition API
+  description: >-
+    Speech-to-text in two shapes. A realtime WebSocket at /api/v1/asr accepts 16 kHz mono audio
+    and returns SentenceBegin / SentenceChanged / SentenceEnd events with optional punctuation,
+    ITN, disfluency removal, speaker diarization, confidence and word-level timing. A recording-file
+    HTTP API on the same base submits a job by URL or chunked upload, then polls for the transcript
+    or receives it on a callback URL; audio up to 512 MB / 5 hours, results retained 72 hours.
+    Bearer token authentication.
+  humanURL: https://docs.mthreads.com/asr/recording-recognition/introduction
+  baseURL: https://aibook-api.mthreads.com:62220/api/v1/asr
+  tags:
+  - Speech Recognition
+  - Voice
+  - Transcription
+  properties:
+  - type: Documentation
+    url: https://docs.mthreads.com/asr/recording-recognition/introduction
+  - type: APIReference
+    url: https://docs.mthreads.com/asr/realtime-recognition/introduction
+- name: Moore Threads AIBook Streaming Voice Conversion API
+  description: >-
+    A WebSocket voice-conversion service at /api/v1/streaming_vc that re-timbres a live 16 kHz
+    16-bit mono PCM stream into a target voice and returns 48 kHz PCM. Interaction is
+    StartConversion → binary audio frames → StopConversion, with ConversionStarted /
+    ConversionCompleted / Error control messages. Token passed as a URL query parameter.
+  humanURL: https://docs.mthreads.com/vc/stream-vc/introduction
+  baseURL: https://aibook-api.mthreads.com:32314
+  tags:
+  - Voice
+  - Streaming
+  - Audio
+  properties:
+  - type: Documentation
+    url: https://docs.mthreads.com/vc/stream-vc/introduction
+- name: KUAE Cloud Coding Plan API
+  description: >-
+    An LLM inference endpoint operated on Moore Threads MTT S5000 GPUs and sold as a subscription
+    for AI coding tools. It speaks two wire protocols from one host — the Anthropic Messages
+    protocol at the root (used by Claude Code) and the OpenAI Chat Completions protocol at /v1
+    (used by Cline, Cursor, Roo Code, Kilo Code and OpenCode) — serving the GLM-4.7 model.
+    Authenticated with an API key created in the KUAE Cloud console.
+  humanURL: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+  baseURL: https://coding-plan-endpoint.kuaecloud.net
+  tags:
+  - LLM Inference
+  - Artificial Intelligence
+  - Developer Tools
+  properties:
+  - type: Documentation
+    url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+  - type: GettingStarted
+    url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/user_guide
+  - type: SignUp
+    url: https://coding-plan.kuaecloud.net/free_apply
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +113,75 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.hiive.com/securities/moore-threads-stock
+  url: https://www.mthreads.com/
+- type: DeveloperPortal
+  url: https://developer.mthreads.com
+- type: Documentation
+  url: https://docs.mthreads.com/
+- type: APIReference
+  url: https://docs.mthreads.com/tts/stream-tts/introduction
+- type: GettingStarted
+  url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/user_guide
+- type: Support
+  url: https://www.mthreads.com/support/FAQ
+- type: Blog
+  url: https://blog.mthreads.com
+- type: GitHubOrganization
+  url: https://github.com/MooreThreads
+- type: SignUp
+  url: https://coding-plan.kuaecloud.net/free_apply
+- type: TermsOfService
+  url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/terms/user_agreement
+- type: PrivacyPolicy
+  url: https://www.mthreads.com/privacy
+- type: Authentication
+  url: authentication/moore-threads-authentication.yml
+- type: ErrorCatalog
+  url: errors/moore-threads-error-codes.yml
+- type: Conventions
+  url: conventions/moore-threads-conventions.yml
+- type: RateLimits
+  url: rate-limits/moore-threads-rate-limits.yml
+- type: Plans
+  url: plans/moore-threads-plans-pricing.yml
+- type: Packages
+  url: packages/moore-threads-packages.yml
+- type: SDKs
+  url: packages/moore-threads-packages.yml
+- type: LLMsTxt
+  url: llms/moore-threads-llms.txt
+- type: Lifecycle
+  url: lifecycle/moore-threads-lifecycle.yml
+- type: ChangeLog
+  url: changelog/moore-threads-changelog.yml
+- type: Conformance
+  url: conformance/moore-threads-conformance.yml
+- type: DomainSecurity
+  url: security/moore-threads-domain-security.yml
+- type: Webhooks
+  url: asyncapi/moore-threads-webhooks.yml
+- type: Sandbox
+  url: sandbox/moore-threads-sandbox.yml
+- type: Components
+  url: components/moore-threads-components.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    Moore Threads has a real, fully documented public API surface — AIBook TTS/ASR/voice conversion
+    on aibook-api.mthreads.com and the KUAE Cloud Coding Plan LLM endpoint — but publishes no
+    machine-readable contract for any of it; every artifact here was read from the prose API
+    references on docs.mthreads.com.
+  evidence:
+  - url: https://docs.mthreads.com/tts/unary-tts/introduction
+    status: 200
+  - url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+    status: 200
+  - url: https://aibook-api.mthreads.com:62220/openapi.json
+    status: 404
+  checked: '2026-08-26'

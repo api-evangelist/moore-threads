@@ -1,0 +1,76 @@
+generated: '2026-08-26'
+method: derived
+source: docs.mthreads.com API references (no MCP server published)
+name: Moore Threads MCP Surface
+status: candidate
+description: >-
+  Moore Threads ships no MCP server. Searched the MooreThreads GitHub organisation (133 public
+  repos, zero MCP matches), docs.mthreads.com, developer.mthreads.com and the KUAE Cloud console
+  domain — nothing. The closest artifact is MTClaw, a first-party OpenAI-compatible "function
+  router" proxy that accelerates tool calls for OpenClaw/OpenCode/Hermes, but it is a model
+  provider proxy a user self-hosts, not an MCP server, and it exposes no MCP transport. The tools
+  below are a DERIVED CANDIDATE surface computed from the operations Moore Threads documents in
+  prose; no endpoint exists to call them and none of these tool names appears anywhere in Moore
+  Threads' own material.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    mode is none because no server exists in either shape — no hosted URL an agent can POST to,
+    and no npx/pip package a human could install. Recorded rather than omitted so this provider is
+    distinguishable from the 155 catalog providers that ship stdio-only.
+searched:
+- {target: 'https://github.com/MooreThreads (133 public repos)', result: no MCP server}
+- {target: 'GitHub code search org:MooreThreads mcp', result: 0 results}
+- {target: 'https://developer.mthreads.com/mcp', status: 404}
+- {target: docs.mthreads.com sitemap (1485 URLs), result: no MCP page}
+candidate_tools:
+- name: synthesize_speech
+  description: Synthesise up to 300 characters of text to a wav or mp3 audio file using one of 27 published voices.
+  backing_operation: POST https://aibook-api.mthreads.com:32414/api/v1/tts/generate
+  inputs_documented_at: https://docs.mthreads.com/tts/unary-tts/introduction
+  confidence: high
+- name: stream_synthesize_speech
+  description: Stream synthesised audio chunks with word- and phoneme-level timestamps, optionally from a streaming text input.
+  backing_operation: WSS https://aibook-api.mthreads.com:32414/api/v2/tts/stream_generate
+  inputs_documented_at: https://docs.mthreads.com/tts/stream-tts/introduction
+  confidence: high
+- name: submit_transcription
+  description: Submit a recording (by URL or upload) for asynchronous speech recognition; returns a task_id.
+  backing_operation: POST https://aibook-api.mthreads.com:62220/api/v1/asr/submit
+  inputs_documented_at: https://docs.mthreads.com/asr/recording-recognition/introduction
+  confidence: high
+- name: query_transcription
+  description: Poll a transcription task for status and, once complete, sentence- and word-level results.
+  backing_operation: Query operation on the ASR base; the docs describe the request and response but do not state the path.
+  inputs_documented_at: https://docs.mthreads.com/asr/recording-recognition/introduction
+  confidence: medium
+  note: Path not published — an agent could not construct this call from the docs alone.
+- name: transcribe_realtime
+  description: Open a realtime transcription session over WebSocket and receive sentence begin/change/end events.
+  backing_operation: WSS https://aibook-api.mthreads.com:62220/api/v1/asr
+  inputs_documented_at: https://docs.mthreads.com/asr/realtime-recognition/introduction
+  confidence: high
+  note: Streaming binary audio does not map cleanly onto an MCP tool call; this would need a session abstraction.
+- name: convert_voice_stream
+  description: Re-timbre a live audio stream into a target voice.
+  backing_operation: WSS https://aibook-api.mthreads.com:32314/api/v1/streaming_vc
+  inputs_documented_at: https://docs.mthreads.com/vc/stream-vc/introduction
+  confidence: high
+- name: list_voices
+  description: Enumerate available TTS voices.
+  backing_operation: null
+  confidence: low
+  note: >-
+    27 voices are published as a static table in the documentation. There is no endpoint that
+    returns them, so an agent cannot discover the voice catalogue at runtime — it must be
+    hard-coded from the docs. Recorded as a gap, not as an operation.
+gaps:
+- No MCP server, hosted or packaged.
+- No machine-readable contract of any kind to generate one from.
+- The voice and model catalogues are documentation tables, not endpoints.
+checked: '2026-08-26'

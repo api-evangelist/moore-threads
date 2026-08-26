@@ -1,0 +1,93 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/asr/recording-recognition/introduction
+name: Moore Threads AIBook Error / Status Code Registry
+description: >-
+  The AIBook speech APIs share one numeric status vocabulary carried in a `status` integer plus a
+  `status_text` string, returned in the JSON body of both HTTP responses and WebSocket control
+  frames. 1xxx is success/in-progress, 2xxx is caller identity and quota, 3xxx is server-side, 4xxx
+  is request/payload validation. It is NOT RFC 9457 problem+json; HTTP status is a coarse
+  200/400/500 and the real outcome is the numeric code in the body.
+format: vendor-numeric
+problem_json: false
+rfc9457: false
+envelope:
+  fields:
+  - name: task_id
+    type: string
+    note: Server-generated session/job id. Spelled `taskid` in one documented response sample — an inconsistency in the published docs.
+  - name: status
+    type: integer
+    note: The authoritative outcome code.
+  - name: status_text
+    type: string
+  - name: type
+    type: string
+    note: WebSocket surfaces only — TranscriptionStarted / SentenceBegin / SentenceChanged / SentenceEnd / TranscriptionCompleted / ConversionStarted / ConversionCompleted / Warning / Error.
+catalogs:
+- id: asr
+  applies_to:
+  - Moore Threads AIBook Speech Recognition API
+  - Moore Threads AIBook Streaming Voice Conversion API
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+  codes:
+  - {code: 1000, text: success!, meaning: Success, class: success}
+  - {code: 1001, text: waiting, meaning: Queued, class: in-progress}
+  - {code: 1002, text: running, meaning: Recognition in progress, class: in-progress}
+  - {code: 2001, text: appid doesn't exist!, meaning: Unknown appid, class: auth, action: Check the appid issued to you}
+  - {code: 2002, text: authorization failed., meaning: Authentication failed, class: auth, action: Check the access token}
+  - {code: 2003, text: too many requests, meaning: Concurrency limit exceeded, class: quota, action: Back off and retry}
+  - {code: 2004, text: service overload, meaning: Client sending data faster than realtime, class: quota, action: Pace audio frames to wall-clock}
+  - {code: 3001, text: service is busy, meaning: Server busy, class: server, action: Retry}
+  - {code: 3002, text: service timeout, meaning: Server processing timeout, class: server, action: Retry}
+  - {code: 3003, text: client is disconnected, meaning: Client disconnected before completion, class: server}
+  - {code: 3004, text: errors occured during processing, meaning: Recognition failure, class: server}
+  - {code: 3005, text: cannot find the taskid, meaning: Task expired or unknown task_id, class: server, action: Results are retained 72 hours only}
+  - {code: 3006, text: invalid audio type, meaning: audio_type not permitted, class: server}
+  - {code: 3007, text: language is not supported, meaning: Unsupported source language, class: server}
+  - {code: 3008, text: target language is not supported, meaning: Unsupported translation target, class: server}
+  - {code: 3009, text: errors occured during translation, meaning: Translation failure, class: server}
+  - {code: 4001, text: unknown parameter is given., meaning: Unknown/unsupported parameter, class: request}
+  - {code: 4002, text: given value is invalid, meaning: Illegal parameter value, class: request}
+  - {code: 4003, text: request invalid, meaning: Malformed request message, class: request}
+  - {code: 4004, text: fail to read the audio, meaning: Audio decode failure, class: request}
+  - {code: 4005, text: unsupported audio format, meaning: Audio format not supported, class: request}
+  - {code: 4006, text: audio too large, meaning: File exceeds 512 MB audio / 2 GB video, class: request}
+  - {code: 4007, text: audio too long, meaning: Duration exceeds 5 hours, class: request}
+  - {code: 4008, text: fail to download the audio file, meaning: Server could not fetch the supplied url, class: request}
+  - {code: 4009, text: data timeout, meaning: More than 10s between audio packets, class: request, action: Send audio at least every 10 seconds}
+  - {code: 4010, text: url is invalid, meaning: Illegal audio URL, class: request}
+  - {code: 4011, text: callback url is invalid, meaning: Illegal callback URL, class: request}
+  - {code: 4012, text: fail to check content-length, meaning: Content-Length check failed, class: request}
+  - {code: 4013, text: fail to check md5, meaning: Uploaded audio MD5 mismatch, class: request}
+  - {code: 4014, text: fail to upload audio data, meaning: Upload failed or timed out, class: request}
+  - {code: 4015, text: duplicated upload done detected, meaning: UploadDone sent twice, class: request}
+  - {code: 4016, text: duplicated start detected, meaning: Requests sent out of the documented sequence, class: request}
+- id: tts
+  applies_to:
+  - Moore Threads AIBook Text-to-Speech API
+  source: https://docs.mthreads.com/tts/stream-tts/introduction
+  codes:
+  - {code: 1000, text: Success, meaning: Request correct, synthesis normal, class: success}
+  - {code: 2000, text: invalid request parameters, meaning: Required field missing or value invalid, class: request, action: Check calling logic}
+  - {code: 2001, text: invalid text, meaning: Empty text, language mismatch, or punctuation-only text, class: request}
+  - {code: 2002, text: input config error, meaning: Bad text_type — e.g. ssml supplied on the streaming-text surface, class: request}
+  - {code: 2003, text: voice config error, meaning: Unknown or misused voice_name, class: request}
+  - {code: 2004, text: audio config error, meaning: Invalid audio encoding requested, class: request}
+  - {code: 2005, text: cluster config error, meaning: Invalid cluster — must be mt_tts or mt_llm_tts, class: request}
+  - {code: 3000, text: internal service error, meaning: Service, network or resource fault, class: server, action: Retry}
+- id: kuae-coding-plan
+  applies_to:
+  - KUAE Cloud Coding Plan API
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+  note: >-
+    Only one error is published, in the Claude Code troubleshooting section. The endpoint speaks
+    the Anthropic and OpenAI error envelopes, so callers should expect those providers' shapes,
+    but Moore Threads publishes no error reference of its own for this surface.
+  envelope: '{"error": {"code": ..., "message": ..., "param": ..., "type": ...}}'
+  codes:
+  - {code: AuthenticationError, text: The API key format is incorrect. Request id:0217xxxxxxx, type: Unauthorized, class: auth, action: Run /logout in Claude Code and re-launch with ANTHROPIC_AUTH_TOKEN set}
+gaps:
+- No RFC 9457 application/problem+json on any surface.
+- No documented HTTP status-code mapping — the docs say only "HTTP 200 means success, anything else means failure".
+- The KUAE Cloud Coding Plan endpoint has no published error reference at all.

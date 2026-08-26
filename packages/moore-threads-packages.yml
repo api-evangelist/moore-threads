@@ -1,0 +1,105 @@
+generated: '2026-08-26'
+method: searched
+source: https://registry.npmjs.org/mtai
+name: Moore Threads Packages and SDKs
+description: >-
+  Moore Threads publishes exactly one first-party client SDK to a public package registry — the
+  `mtai` browser SDK for its digital-human service on npm. Everything else the company distributes
+  is a GPU compute artifact rather than an API client: 133 public repositories under the
+  MooreThreads GitHub org (almost all MUSA ports of upstream CUDA projects), and three official
+  Docker Hub images. None of the AIBook speech APIs (TTS, ASR, voice conversion) has a published
+  client library in any registry, and the KUAE Cloud Coding Plan ships no SDK because it is
+  consumed through the stock Anthropic and OpenAI clients.
+sdk_count: 1
+packages:
+- name: mtai
+  registry: npm
+  url: https://www.npmjs.com/package/mtai
+  official: true
+  language: TypeScript
+  version: 0.2.21
+  published: '2026-07-23'
+  release_count: 56
+  repository: https://github.com/MooreThreads/mtai-sdk-ts
+  covers: 摩影元像 (Moying Yuanxiang) digital human — 2D session lifecycle, ASR/TTS routing, avatar and voice catalogues, component updates
+  install: npm install mtai
+  note: >-
+    Current. Latest release is one month old and the repository was last pushed the same day, so
+    this SDK is actively maintained. It targets a customer-hosted digital-human server (default
+    endpoint http://localhost:32101, overridden with setConfig) rather than a Moore Threads-hosted
+    API, which is why it carries no credential of its own.
+- name: mthreads/musa
+  registry: docker-hub
+  url: https://hub.docker.com/r/mthreads/musa
+  official: true
+  language: n/a
+  version: null
+  published: '2025-09-25'
+  note: >-
+    Official MUSA runtime/development container image, 767,681 pulls. Docker Hub's repository
+    endpoint exposes a last_updated date but not a single "latest version" string the way a
+    language registry does, so `version` is recorded null with the last-updated date instead —
+    checked, nothing to record. This is a compute runtime, not an API client.
+- name: mthreads/ollama
+  registry: docker-hub
+  url: https://hub.docker.com/r/mthreads/ollama
+  official: true
+  version: null
+  published: '2025-09-01'
+  note: Official Ollama build for MTGPU, 6,950 pulls. Companion to github.com/MooreThreads/ollama-musa.
+- name: mthreads/vulkan-sdk
+  registry: docker-hub
+  url: https://hub.docker.com/r/mthreads/vulkan-sdk
+  official: true
+  version: null
+  published: '2025-08-13'
+  note: Official Vulkan SDK image, 231 pulls.
+source_distributions:
+- name: torch_musa
+  registry: github-only
+  url: https://github.com/MooreThreads/torch_musa
+  official: true
+  version: null
+  published: null
+  note: >-
+    PyTorch backend for Moore Threads GPUs, 506 stars. Checked pypi.org/pypi/torch-musa/json and
+    /torch_musa/json — both 404. The package is distributed as wheels from the Moore Threads
+    developer site and the container images, not from PyPI, so there is no registry metadata
+    endpoint to date it and a consumer cannot pin it by version from a public index.
+- name: mthreads-ml-py
+  registry: github-only
+  url: https://github.com/MooreThreads/mthreads-ml-py
+  official: true
+  version: null
+  published: null
+  note: Python bindings for GPU management and monitoring (the MTML library). Not published to PyPI.
+- name: MobiMaliangSDK
+  registry: github-only
+  url: https://github.com/MooreThreads/MobiMaliangSDK
+  official: true
+  version: null
+  published: null
+  note: >-
+    Python SDK for the 摩笔马良 (MobiMaliang) AIGC platform, 124 stars. Last pushed 2024-01-16 —
+    over two years stale, and the only Moore Threads client SDK that is visibly abandoned.
+registry_misses:
+- registry: pypi
+  queried: [torch-musa, torch_musa, mthreads-ml, mtai, musa]
+  result: >-
+    No first-party Moore Threads package. `mtai` on PyPI is an unrelated MediTranscribe client and
+    `musa` on PyPI is an unrelated 2018 music-tagging tool — neither belongs to this company and
+    neither is recorded above.
+- registry: maven-central
+  result: none found
+- registry: nuget
+  result: none found
+- registry: crates.io
+  result: none found
+- registry: rubygems
+  result: none found
+- registry: packagist
+  result: none found
+- registry: pkg.go.dev
+  result: >-
+    ollama-musa is a Go program distributed as a fork repository and a container image, not as an
+    importable module release.

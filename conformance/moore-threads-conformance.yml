@@ -1,0 +1,105 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+name: Moore Threads Standards Conformance
+description: >-
+  One genuine, load-bearing conformance claim and a long list of misses. The KUAE Cloud Coding Plan
+  endpoint declares conformance to TWO de-facto LLM wire protocols at once — the Anthropic Messages
+  protocol at the host root and the OpenAI Chat Completions protocol at /v1 — and the claim is
+  made in the contract's own terms: the docs configure Claude Code with ANTHROPIC_BASE_URL, and
+  configure Cline/Cursor/Roo Code/Kilo Code with "API Provider: OpenAI Compatible" and
+  @ai-sdk/openai-compatible. That is the difference between an agent stack working on first
+  connection and needing a bespoke connector. Everything else is absent: no OAuth2, no OIDC, no
+  RFC 9457, no idempotency, no pagination, and no published compliance certification.
+entries:
+- id: openai-chat-completions
+  conforms: true
+  evidence: >-
+    Docs publish base URL https://coding-plan-endpoint.kuaecloud.net/v1 and instruct callers to
+    select "OpenAI Compatible" as the API provider in Cline, Kilo Code and Roo Code, to set
+    "Override OpenAI Base URL" in Cursor, and to use the npm package @ai-sdk/openai-compatible in
+    OpenCode. Model id GLM-4.7.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+- id: anthropic-messages
+  conforms: true
+  evidence: >-
+    Docs publish ANTHROPIC_BASE_URL=https://coding-plan-endpoint.kuaecloud.net with
+    ANTHROPIC_AUTH_TOKEN and ANTHROPIC_MODEL=GLM-4.7 for Claude Code, on the SAME host that serves
+    the OpenAI protocol at /v1 — an explicit dual-protocol contract.
+  source: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
+- id: rfc6750-bearer
+  conforms: partial
+  evidence: >-
+    The recording-file ASR API documents "Authorization: Bearer {your_access_token}". The unary TTS
+    API documents a bare "Authorization: {ACCESS_TOKEN}" with no scheme token, and the realtime ASR
+    and voice-conversion WebSockets pass the credential as a ?token= query parameter — which
+    RFC 6750 §2.3 discourages. Conformance is inconsistent across sibling endpoints on the same host.
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+- id: websocket-rfc6455
+  conforms: true
+  evidence: Three of the four API surfaces are WebSocket services (TTS v2, realtime ASR, streaming VC) with documented text/binary frame conventions.
+  source: https://docs.mthreads.com/vc/stream-vc/introduction
+- id: grpc
+  conforms: partial
+  evidence: >-
+    The on-premise LiteTTS delivery exposes a gRPC service on port 51061 with a
+    StreamingSynthesizeSpeech method. No .proto file is published — the docs state the protocol
+    files ship inside the delivery tarball, so the interface is real but not publicly obtainable.
+  source: https://docs.mthreads.com/tts/lite-tts/introduction
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are a vendor numeric status/status_text pair in a 200 body. No application/problem+json anywhere.
+  source: errors/moore-threads-error-codes.yml
+- id: oauth2
+  conforms: false
+  evidence: No authorization server, no token endpoint, no /.well-known/oauth-authorization-server on any host (all 404).
+  source: well-known/moore-threads-well-known.yml
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration 404s on every Moore Threads host.
+  source: well-known/moore-threads-well-known.yml
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt 404s on every host.
+  source: well-known/moore-threads-well-known.yml
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key on any surface.
+  source: conventions/moore-threads-conventions.yml
+- id: pagination
+  conforms: false
+  evidence: No collection endpoints published.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation headers documented.
+  source: lifecycle/moore-threads-lifecycle.yml
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is served on any host. Probed /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc against all three AIBook API ports,
+    the KUAE Cloud endpoint, the developer portal and the docs host — 404 everywhere, or a
+    Docusaurus HTML shell.
+- id: asyncapi
+  conforms: false
+  evidence: Three WebSocket event surfaces exist and none is described by an AsyncAPI document.
+domain_standards:
+  market: GPU compute, speech AI, LLM inference
+  note: >-
+    The relevant domain standard for the LLM-inference market is the OpenAI Chat Completions wire
+    protocol, and Moore Threads conforms to it AND to the Anthropic Messages protocol on the same
+    host — recorded above with the exact docs location. The speech market has no comparable
+    dominant contract standard that Moore Threads' surfaces could declare; the AIBook APIs use a
+    bespoke JSON schema of their own, and the pipeline does not penalise a market with no standard.
+compliance_certifications:
+  published: false
+  searched:
+  - https://www.mthreads.com/legal
+  - https://www.mthreads.com/legal/compliance
+  - https://www.mthreads.com/privacy
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or equivalent certification is named on any Moore Threads
+    page. The company publishes a legal/compliance section and ICP/公安备案 filings, which are
+    Chinese regulatory registrations rather than security certifications, so no Compliance pointer
+    is emitted.
+checked: '2026-08-26'

@@ -1,0 +1,57 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/
+name: Moore Threads Release Notes
+description: >-
+  Moore Threads publishes per-version release notes for its software products under
+  docs.mthreads.com, with superseded versions preserved in a history_version tree. The notes are
+  substantive — API counts added, compiler and platform support, validation matrices — but they
+  are NOT DATED: no release note found carries a publication date, so the series can be ordered by
+  version but not placed in time. There is no changelog of any kind for the AIBook speech APIs or
+  the KUAE Cloud Coding Plan endpoint.
+scheme: semver-ish per product line (major.minor.patch)
+current_version: MUSA SDK 5.2.0
+dated: false
+dated_note: >-
+  Release-note pages carry a version in the title and no date in the body. Recorded honestly rather
+  than inferring dates from sitemap or crawl metadata.
+covers:
+- product: MUSA SDK
+  url: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/
+  history: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/history_version/
+- product: KUAE cloud-native suite
+  url: https://docs.mthreads.com/cloud-native/cloud-native-doc-online/releasenote
+- product: Linux PC / server drivers
+  url: https://docs.mthreads.com/driver-linux-pc/driver-linux-pc-doc-online/releasenotes/
+- product: Codec libraries
+  url: https://docs.mthreads.com/codec/codec-doc-online/releasenote
+entries:
+- version: 5.2.0
+  product: MUSA SDK
+  date: null
+  breaking: false
+  url: https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%205.2.0%20releasenote
+  additions:
+  - 33 new MUSA Graph APIs
+  - 46 new FP128-related compiler APIs
+  - Triton compatibility raised to 3.6.0
+  - 5 new muDNN C-interface APIs
+  - 17 new muBLAS / muBLASLt APIs and 8 new muSOLVER APIs
+  - MCCL GPU peer-to-peer direct memory access (DevComm / Window / LSA Pointer / Team-LSA), enabling in-kernel communication for MoE expert parallelism and speculative decoding
+  highlights: >-
+    Multi-platform release validation across Intel, Hygon4 and AMD CPUs on Alinux, VesselOS,
+    Ubuntu 22.04/24.04, Kylin V10/V11 and BigCloud Euler for the MTT S5000.
+- {version: 5.1.0, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%205.1.0%20releasenote'}
+- {version: 4.3.8, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.3.8%20releasenote'}
+- {version: 4.3.6, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.3.6%20releasenote'}
+- {version: 4.3.5, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.3.5%20releasenote'}
+- {version: 4.3.4, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.3.4%20releasenote'}
+- {version: 4.3.2, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.3.2%20releasenote'}
+- {version: 4.0.1, product: MUSA SDK, date: null, url: 'https://docs.mthreads.com/musa-sdk/musa-sdk-doc-online/releasenote/MUSA%20SDK%204.0.1%20releasenote'}
+api_changelog:
+  published: false
+  note: >-
+    Neither the AIBook speech APIs nor the KUAE Cloud Coding Plan has any changelog. The ASR
+    reference carries a single inline change marker — "2024/6/24 新增" against the English-language
+    option — which is the only dated API change published anywhere on the estate.
+checked: '2026-08-26'

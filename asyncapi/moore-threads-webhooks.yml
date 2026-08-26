@@ -1,0 +1,118 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.mthreads.com/asr/recording-recognition/introduction
+name: Moore Threads Event and Webhook Surface
+description: >-
+  Moore Threads has a genuine asynchronous surface and describes none of it in AsyncAPI. It
+  consists of one true webhook — the ASR recording-recognition callback, where the server POSTs the
+  finished transcript to a caller-supplied URL — plus three WebSocket event streams with documented
+  message types. No asyncapi.yaml, asyncapi.json or event catalogue is served on any host, so this
+  file captures the surface from the API references rather than fabricating a specification.
+asyncapi_spec_published: false
+asyncapi_probed:
+- {url: 'https://docs.mthreads.com/asyncapi.yaml', status: 200, verdict: Docusaurus HTML shell, not a spec}
+- {url: 'https://aibook-api.mthreads.com:62220/asyncapi.json', status: 404}
+webhooks:
+- id: asr-recording-callback
+  api: Moore Threads AIBook Speech Recognition API
+  direction: server-to-caller
+  transport: HTTP POST
+  trigger: A recording-file recognition task finishes.
+  subscription: >-
+    Not a subscription. The callback URL is supplied per-task in the `callback` field of the submit
+    request body — there is no webhook registration endpoint, no endpoint management UI and no list
+    of configured endpoints.
+  payload: >-
+    The same document the Query operation returns: task_id, status, status_text, duration,
+    finished_time, cost_time, text, and sentences[] with per-sentence channel, start_time,
+    end_time, text, speaker, confidence and optional words[].
+  security:
+    signature: false
+    secret: false
+    note: >-
+      No HMAC signature, no shared secret, no timestamp and no replay protection is documented for
+      the callback. A receiver cannot verify that a callback POST actually came from Moore Threads.
+      This is the most consequential gap on the whole event surface.
+  delivery:
+    retries: not documented
+    ordering: not documented
+    at_least_once: not documented
+  related_parameter:
+    name: enable_query
+    note: >-
+      When enable_query is false, the Query API stops working once the callback has fired — the
+      callback becomes the ONLY delivery path for that result, with no signature and no documented
+      retry. Setting enable_query true keeps polling available as a fallback.
+  errors:
+  - {code: 4011, text: callback url is invalid}
+  source: https://docs.mthreads.com/asr/recording-recognition/introduction
+channels:
+- id: asr-realtime
+  protocol: wss
+  address: 'wss://aibook-api.mthreads.com:62220/api/v1/asr'
+  auth: token query parameter
+  send:
+  - type: StartTranscription
+    encoding: json
+    note: 'header{appid,type} + payload{domain,language,format,vocabulary_id,lm_id,enable_punctuation,enable_itn,remove_disfluency,enable_speaker_info,nbest,show_confidence,show_words,show_intermediate_result,enable_semantic_sentence_detection,special_word_filter}'
+  - type: SendData
+    encoding: binary
+    note: 16 kHz 16-bit mono PCM, recommended 160 ms per frame
+  - {type: StopTranscription, encoding: json}
+  receive:
+  - {type: TranscriptionStarted}
+  - {type: SentenceBegin}
+  - {type: SentenceChanged, note: Emitted only when show_intermediate_result is true}
+  - {type: SentenceEnd}
+  - {type: TranscriptionCompleted}
+  - {type: Warning}
+  - {type: Error}
+  source: https://docs.mthreads.com/asr/realtime-recognition/introduction
+- id: tts-stream
+  protocol: wss
+  address: 'wss://aibook-api.mthreads.com:32414/api/v2/tts/stream_generate'
+  auth: access_token field in the request body (documented as not yet enforced)
+  send:
+  - type: synthesis request
+    encoding: json
+    note: 'access_token, cluster (mt_tts | mt_llm_tts), input{text,text_type,enable_subtitle,enable_phoneme_timestamp}, voice_config{voice_name,emotion,language}, audio_config{encoding,sample_rate,compression_rate,bits,channel,speed_ratio,volume_ratio,pitch_ratio}, is_final'
+  receive:
+  - type: audio chunk
+    encoding: json
+    note: 'task_id, status, status_text, is_final, data (base64 audio), addition{duration, subtitles[], phoneme_timestamps[]}'
+  note: >-
+    One synthesis per connection. Timestamps are continuous within a connection; resetting them
+    requires a new connection. The streaming-TEXT mode is the notable capability — a caller can
+    push an LLM's tokens in as they arrive and get continuous prosody-coherent audio out.
+  source: https://docs.mthreads.com/tts/stream-tts/introduction
+- id: voice-conversion-stream
+  protocol: wss
+  address: 'wss://aibook-api.mthreads.com:32314/api/v1/streaming_vc'
+  auth: token query parameter
+  send:
+  - type: StartConversion
+    encoding: json
+    note: 'payload{voice, input_info{sample_rate:16000,channels:1,bits:16,audio_encoding:pcm}, output_info{sample_rate:48000,channels:1,bits:16,audio_encoding:pcm}}'
+  - {type: audio, encoding: binary}
+  - {type: StopConversion, encoding: json}
+  receive:
+  - {type: ConversionStarted}
+  - {type: converted audio, encoding: binary}
+  - {type: ConversionCompleted}
+  - {type: Error}
+  source: https://docs.mthreads.com/vc/stream-vc/introduction
+- id: digital-human-session
+  protocol: websocket/webrtc
+  address: '{customer-hosted}:32101'
+  note: >-
+    The mtai Web SDK opens a duplex session against a customer-hosted digital-human server and
+    emits typed messages (status_change, message/audio_text) while accepting wakeup, sleep, input,
+    bot_text and asr_session commands. Included for completeness — the endpoint is the customer's,
+    not Moore Threads'.
+  source: https://docs.mthreads.com/digital-human/digital-human-doc-online/sdk
+gaps:
+- No AsyncAPI document for any of the four channels.
+- No webhook signature or secret on the only true webhook.
+- No webhook registration/management API — the callback URL is per-request only.
+- No documented retry or delivery guarantee for the callback.
+checked: '2026-08-26'
