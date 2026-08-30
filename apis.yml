@@ -34,6 +34,19 @@ tags:
 - Company
 - GPU
 - Artificial Intelligence
+- Machine-Learning
+- Semiconductors
+- Speech Recognition
+- Text-to-Speech
+- Voice
+- LLM Inference
+- Cloud Computing
+- Developer Tools
+- China
+tags_raw:
+- Company
+- GPU
+- Artificial Intelligence
 - Machine Learning
 - Semiconductors
 - Speech Recognition
@@ -55,6 +68,10 @@ apis:
   humanURL: https://docs.mthreads.com/tts/unary-tts/introduction
   baseURL: https://aibook-api.mthreads.com:32414
   tags:
+  - Text-to-Speech
+  - Voice
+  - Streaming
+  tags_raw:
   - Text To Speech
   - Voice
   - Streaming
