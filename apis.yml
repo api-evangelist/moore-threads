@@ -50,12 +50,12 @@ tags:
 - Company
 - GPU
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - Semiconductors
 - Speech Recognition
 - Text-to-Speech
 - Voice
-- LLM Inference
+- Inference
 - Cloud Computing
 - Developer Tools
 - China
@@ -72,6 +72,7 @@ tags_raw:
 - Cloud Computing
 - Developer Tools
 - China
+- Machine-Learning
 apis:
 - name: Moore Threads AIBook Text-to-Speech API
   description: >-
@@ -140,6 +141,10 @@ apis:
   humanURL: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/tools_config
   baseURL: https://coding-plan-endpoint.kuaecloud.net
   tags:
+  - Inference
+  - Artificial Intelligence
+  - Developer Tools
+  tags_raw:
   - LLM Inference
   - Artificial Intelligence
   - Developer Tools
