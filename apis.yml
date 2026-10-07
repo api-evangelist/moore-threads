@@ -161,6 +161,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Pricing
+  url: https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview
 - type: Website
   url: https://www.mthreads.com/
 - type: DeveloperPortal
