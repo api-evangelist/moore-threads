@@ -74,3 +74,34 @@ notes:
 - >-
   A prompt is documented as consuming roughly 15-20 model invocations, and the tier figures are
   stated as estimates that vary with project complexity and codebase size.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: Free Trial
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Lite Plan
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Pro Plan
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Max Plan
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
