@@ -64,5 +64,123 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Moore Threads is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.hiive.com/securities/moore-threads-stock
+Moore Threads (摩尔线程智能科技) is a Chinese GPU company founded in June 2020 that builds full-function GPUs and the MUSA (Meta-computing Unified System Architecture) software stack — a CUDA-alternative programming environment covering the MUSA SDK, muDNN, muBLAS, MCCL, Triton-MUSA and the Musify CUDA-porting toolkit. Alongside the silicon and the SDK it operates a small but real public API surface: the AIBook speech platform (HTTP and WebSocket text-to-speech, streaming and recording-file speech recognition, and streaming voice conversion on aibook-api.mthreads.com), the KUAE Cloud (夸娥云) Coding Plan — an OpenAI- and Anthropic-compatible LLM inference endpoint at coding-plan-endpoint.kuaecloud.net serving GLM-4.7 on MTT S5000 GPUs — and the "摩影元像" digital-human Web SDK distributed on npm as `mtai`. None of these surfaces publishes a machine-readable contract; every operation is documented as prose, parameter tables and curl/Python samples on docs.mthreads.com, and access tokens are issued by contacting sales.
+
+**Areas:** Company · GPU · Artificial Intelligence · Machine Learning · Semiconductors · Speech Recognition · Text-to-Speech · Voice · Inference · Cloud Computing · Developer Tools · China
+
+## Moore Threads on APIs.io
+
+Everything profiled for Moore Threads is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/moore-threads/](https://apis.io/providers/moore-threads/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [Moore Threads AIBook Text-to-Speech API](https://apis.io/apis/moore-threads/moore-threads-aibook-text-to-speech-api/) — HTTP and WebSocket speech synthesis. A non-streaming POST /api/v1/tts/generate returns a complete wav/mp3 for up to 300 characters; a WebSocket…
+- [Moore Threads AIBook Speech Recognition API](https://apis.io/apis/moore-threads/moore-threads-aibook-speech-recognition-api/) — Speech-to-text in two shapes. A realtime WebSocket at /api/v1/asr accepts 16 kHz mono audio and returns SentenceBegin / SentenceChanged / SentenceEnd events…
+- [Moore Threads AIBook Streaming Voice Conversion API](https://apis.io/apis/moore-threads/moore-threads-aibook-streaming-voice-conversion-api/) — A WebSocket voice-conversion service at /api/v1/streaming_vc that re-timbres a live 16 kHz 16-bit mono PCM stream into a target voice and returns 48 kHz…
+- [KUAE Cloud Coding Plan API](https://apis.io/apis/moore-threads/kuae-cloud-coding-plan-api/) — An LLM inference endpoint operated on Moore Threads MTT S5000 GPUs and sold as a subscription for AI coding tools. It speaks two wire protocols from one…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Moore Threads Webhooks](https://apis.io/asyncapis/moore-threads/moore-threads-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Moore Threads MCP Surface](https://apis.io/servers/moore-threads/moore-threads-mcp-surface/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Moore Threads Authentication](https://apis.io/security/moore-threads/moore-threads-authentication/)
+- [Moore Threads Domain Security](https://apis.io/security/moore-threads/moore-threads-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Moore Threads Plans Pricing](https://apis.io/plans/moore-threads/moore-threads-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Moore Threads Rate Limits](https://apis.io/rate-limits/moore-threads/moore-threads-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.mthreads.com/)
+- [Documentation](https://docs.mthreads.com/)
+- [Getting started](https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/user_guide)
+- [API reference](https://docs.mthreads.com/tts/stream-tts/introduction)
+- [Pricing](https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/coding_plan/plan_overview)
+- [Sign up](https://coding-plan.kuaecloud.net/free_apply)
+- [Support](https://www.mthreads.com/support/FAQ)
+- [Blog](https://blog.mthreads.com)
+- [Terms of service](https://docs.mthreads.com/kuaecloud/kuaecloud-doc-online/terms/user_agreement)
+- [Privacy policy](https://www.mthreads.com/privacy)
+- [GitHub](https://github.com/MooreThreads)
+
+## API Evangelist rating
+
+**Kin Score 48.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 39.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 57.9 |
+| Developer ergonomics | 58.3 |
+| Access clarity | 59.2 |
+
+**Agent readiness 28.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 19.1** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/moore-threads/](https://apis.io/providers/moore-threads/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Moore Threads: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/moore-threads/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
